@@ -1,4 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="40" fill="#0d1117"/>
-  <text x="96" y="130" font-size="110" text-anchor="middle" fill="#c9a84c" font-family="Georgia, serif">"</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1a1f2e"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="110" fill="url(#glow)"/>
+
+  <!-- Open quote ( " ) drawn as two elegant teardrop shapes -->
+  <!-- Left drop -->
+  <circle cx="186" cy="196" r="44" fill="#c9a84c"/>
+  <path d="M148 232 Q130 280 155 328 Q175 300 186 260 Q180 248 148 232Z" fill="#c9a84c"/>
+
+  <!-- Right drop -->
+  <circle cx="276" cy="196" r="44" fill="#c9a84c"/>
+  <path d="M238 232 Q220 280 245 328 Q265 300 276 260 Q270 248 238 232Z" fill="#c9a84c"/>
+
+  <!-- Thin gold line accent at bottom -->
+  <rect x="148" y="348" width="172" height="5" rx="3" fill="#c9a84c" opacity="0.4"/>
 </svg>
