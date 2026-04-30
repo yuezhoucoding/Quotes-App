@@ -122,16 +122,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 32px 20px;
+      gap: 48px;
+      padding: 12px 32px 20px;
       flex-shrink: 0;
     }
 
-    #swipe-hint {
-      font-size: 11px;
+    .nav-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--text-dim);
-      letter-spacing: 0.06em;
-      opacity: 0.6;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
     }
+    .nav-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.08); color: var(--text); }
+    .nav-btn:hover  { background: rgba(255,255,255,0.08); color: var(--text); }
 
     /* ── Overlay / sheet ── */
     .overlay {
@@ -447,7 +456,16 @@
   </div>
 
   <div id="nav">
-    <span id="swipe-hint">← swipe to browse →</span>
+    <button class="nav-btn" id="prev-btn" aria-label="Previous">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <button class="nav-btn" id="next-btn" aria-label="Next">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -610,6 +628,9 @@
   render(current);
 
   // ── Nav ───────────────────────────────────────────────────────────────────
+
+  document.getElementById('prev-btn').addEventListener('click', () => go(-1));
+  document.getElementById('next-btn').addEventListener('click', () => go(1));
 
   let touchStartX = 0;
   document.getElementById('quote-wrap').addEventListener('touchstart', e => {
