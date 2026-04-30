@@ -1,4 +1,4 @@
-const CACHE = 'quotes-v3';
+const CACHE = 'quotes-v4';
 const FILES = ['./index.html', './quotes.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {

@@ -622,7 +622,8 @@
   document.getElementById('reminder-time').value = reminderTime;
   document.getElementById('quote-count').textContent = allQuotes.length;
 
-  const savedUrl = localStorage.getItem('sheetUrl') || '';
+  const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRLF5y5B7S25anyNNNTvqYHOh9MTklSia4WT1Q7vR09eOHX1nL9kFr4vSJwFWQDNSWm2LHsXg0O00td/pub?output=csv';
+  const savedUrl = localStorage.getItem('sheetUrl') || DEFAULT_SHEET_URL;
   if (savedUrl) document.getElementById('sheet-url').value = savedUrl;
 
   render(current);
@@ -688,9 +689,7 @@
   });
 
   // Auto-sync every time the app is opened
-  if (savedUrl) {
-    syncSheet(savedUrl).catch(() => {});
-  }
+  syncSheet(savedUrl).catch(() => {});
 
   // ── Notifications ─────────────────────────────────────────────────────────
   function setNotifStatus(msg, isErr) {
