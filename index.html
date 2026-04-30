@@ -48,9 +48,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px 0;
+      padding: 10px 16px 0;
       flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity 0.3s;
     }
+    #topbar:hover, #topbar:focus-within { opacity: 1; }
 
     #today-badge { display: none; }
 
@@ -79,7 +82,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 32px 32px 16px;
+      padding: 24px 28px 8px;
       overflow: hidden;
     }
 
@@ -96,21 +99,21 @@
 
     #quote-text {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(18px, 4.5vw, 26px);
-      line-height: 1.65;
+      font-size: clamp(26px, 7vw, 42px);
+      line-height: 1.55;
       color: var(--text);
       transition: opacity 0.3s ease;
       text-align: center;
     }
 
     #quote-author {
-      margin-top: 20px;
-      font-size: 13px;
-      font-weight: 500;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 400;
       letter-spacing: 0.08em;
-      color: var(--gold-dim);
+      color: rgba(240,236,228,0.3);
       text-transform: uppercase;
-      min-height: 18px;
+      min-height: 14px;
       transition: opacity 0.3s ease;
       text-align: center;
     }
@@ -123,9 +126,12 @@
       align-items: center;
       justify-content: center;
       gap: 48px;
-      padding: 12px 32px 20px;
+      padding: 8px 32px 16px;
       flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity 0.3s;
     }
+    #nav:hover { opacity: 1; }
 
     .nav-btn {
       background: var(--surface);
@@ -139,7 +145,7 @@
       justify-content: center;
       transition: background 0.2s, color 0.2s, transform 0.1s;
     }
-    .nav-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.08); color: var(--text); }
+    .nav-btn:active { transform: scale(0.92); background: rgba(255,255,255,0.08); color: var(--text); opacity: 1; }
     .nav-btn:hover  { background: rgba(255,255,255,0.08); color: var(--text); }
 
     /* ── Overlay / sheet ── */
