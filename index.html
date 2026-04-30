@@ -582,18 +582,7 @@
   }
   function cacheSheet(arr) { localStorage.setItem('sheetQuotes', JSON.stringify(arr)); }
 
-  // ── Build full quote list ─────────────────────────────────────────────────
-  // If a sheet is connected, use ONLY sheet quotes. Otherwise fall back to quotes.js.
-  function rebuild() {
-    const cached = loadCachedSheet();
-    allQuotes = cached.length > 0 ? cached : [...quotes];
-    shuffledOrder = shuffle([...Array(allQuotes.length).keys()]);
-  }
-  let allQuotes = [];
-  rebuild();
-
-  // ── State ─────────────────────────────────────────────────────────────────
-  // Shuffle the quote indices so browsing feels random
+  // ── Helpers ───────────────────────────────────────────────────────────────
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -602,19 +591,27 @@
     return arr;
   }
 
-  let shuffledOrder = shuffle([...Array(allQuotes.length).keys()]);
-
-  function hourlyIndex() {
+  function hourlyIndex(len) {
     const now = new Date();
     const seed = now.getFullYear() * 1000000 + (now.getMonth()+1) * 10000
                + now.getDate() * 100 + now.getHours();
-    return seed % allQuotes.length;
+    return seed % len;
   }
 
-  // Start at the hourly quote within the shuffled list
-  const hourlyQuoteIdx = allQuotes.findIndex((_, i) => i === hourlyIndex());
-  let current = shuffledOrder.indexOf(hourlyIndex()) !== -1
-    ? shuffledOrder.indexOf(hourlyIndex()) : 0;
+  // ── Build full quote list ─────────────────────────────────────────────────
+  let allQuotes = [];
+  let shuffledOrder = [];
+
+  function rebuild() {
+    const cached = loadCachedSheet();
+    allQuotes = cached.length > 0 ? cached : [...quotes];
+    shuffledOrder = shuffle([...Array(allQuotes.length).keys()]);
+  }
+  rebuild();
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let current = shuffledOrder.indexOf(hourlyIndex(allQuotes.length));
+  if (current === -1) current = 0;
   let transitioning = false;
   const storedTime = localStorage.getItem('reminderTime');
   let reminderTime = storedTime || '08:00';
@@ -732,7 +729,7 @@
     next.setHours(h, m, 0, 0);
     if (next <= now) next.setDate(next.getDate() + 1);
     setTimeout(() => {
-      const q = allQuotes[current];
+      const q = allQuotes[shuffledOrder[current]] || allQuotes[0];
       new Notification('Your Daily Quote', {
         body: q.text + (q.author ? '\n— ' + q.author : ''),
         icon: './icon.svg', silent: false
