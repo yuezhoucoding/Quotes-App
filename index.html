@@ -587,7 +587,7 @@
   rebuild();
 
   // ── State ─────────────────────────────────────────────────────────────────
-  let current = todayIndex();
+  let current = 0;
   let transitioning = false;
   const storedTime = localStorage.getItem('reminderTime');
   let reminderTime = storedTime || '08:00';
