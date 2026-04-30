@@ -592,7 +592,14 @@
   rebuild();
 
   // ── State ─────────────────────────────────────────────────────────────────
-  let current = 0;
+  function hourlyIndex() {
+    const now = new Date();
+    // unique number per hour: e.g. 2026043014 (year+month+day+hour)
+    const seed = now.getFullYear() * 1000000 + (now.getMonth()+1) * 10000
+               + now.getDate() * 100 + now.getHours();
+    return seed % allQuotes.length;
+  }
+  let current = hourlyIndex();
   let transitioning = false;
   const storedTime = localStorage.getItem('reminderTime');
   let reminderTime = storedTime || '08:00';
