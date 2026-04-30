@@ -587,19 +587,34 @@
   function rebuild() {
     const cached = loadCachedSheet();
     allQuotes = cached.length > 0 ? cached : [...quotes];
+    shuffledOrder = shuffle([...Array(allQuotes.length).keys()]);
   }
   let allQuotes = [];
   rebuild();
 
   // ── State ─────────────────────────────────────────────────────────────────
+  // Shuffle the quote indices so browsing feels random
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  let shuffledOrder = shuffle([...Array(allQuotes.length).keys()]);
+
   function hourlyIndex() {
     const now = new Date();
-    // unique number per hour: e.g. 2026043014 (year+month+day+hour)
     const seed = now.getFullYear() * 1000000 + (now.getMonth()+1) * 10000
                + now.getDate() * 100 + now.getHours();
     return seed % allQuotes.length;
   }
-  let current = hourlyIndex();
+
+  // Start at the hourly quote within the shuffled list
+  const hourlyQuoteIdx = allQuotes.findIndex((_, i) => i === hourlyIndex());
+  let current = shuffledOrder.indexOf(hourlyIndex()) !== -1
+    ? shuffledOrder.indexOf(hourlyIndex()) : 0;
   let transitioning = false;
   const storedTime = localStorage.getItem('reminderTime');
   let reminderTime = storedTime || '08:00';
@@ -614,7 +629,7 @@
     textEl.classList.add('fading');
     authEl.classList.add('fading');
     setTimeout(() => {
-      const q = allQuotes[idx];
+      const q = allQuotes[shuffledOrder[idx]];
       textEl.textContent = q.text;
       authEl.textContent = q.author ? '— ' + q.author : '';
       document.getElementById('counter').textContent = (idx + 1) + ' / ' + allQuotes.length;
@@ -626,7 +641,7 @@
   }
 
   function go(delta) {
-    current = (current + delta + allQuotes.length) % allQuotes.length;
+    current = (current + delta + shuffledOrder.length) % shuffledOrder.length;
     render(current);
   }
 
